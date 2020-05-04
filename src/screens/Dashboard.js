@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 
-export default class Dashboard extends Component {
+class Dashboard extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -11,7 +13,7 @@ export default class Dashboard extends Component {
 	async componentDidMount() {
 		const InUser = await JSON.parse(localStorage.getItem('user'));
 		if (InUser.plan === '') {
-			return (window.location.href = `/`);
+			return this.props.history.push('/');
 		}
 		this.setState({ user: InUser.data, plan: InUser.plan });
 		console.log(this.state);
@@ -21,8 +23,12 @@ export default class Dashboard extends Component {
 			<div>
 				<h1>Welcome {this.state.user.name} </h1>
 				<h4>Plan: {this.state.plan}</h4>
-				<div class="btn_wrap btn color2">Change plan</div>
+				<Link to="/" class="link">
+					<div className="btn_wrap btn color2">Change plan</div>
+				</Link>
 			</div>
 		);
 	}
 }
+
+export default withRouter(Dashboard);
